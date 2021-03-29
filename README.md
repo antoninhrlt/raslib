@@ -1,12 +1,22 @@
 # raslib
 C++ oriented-object library for Raspberry Pi
 
-<img alt="Loading raslib logo..." src="res/png_logo.png" width="100em" float="left"/> A day, I wanted to use C++ with my Raspberry PI 4B, and I don't have find any library who is written in C++ oriented-object that I liked. Like say the proverb : "be the change you want to see" (Gandhi). So I wrote this library. Enjoy ! [Website](https://antoninhrlt.github.io/raslib)
+<img alt="Loading raslib logo..." src="res/png_logo.png" width="70em" 
+float="left"/> A day, I wanted to use C++ with my Raspberry PI 4B, and I don't 
+have find any library who is written in C++ oriented-object that I liked. Like 
+say the proverb : "be the change you want to see" (Gandhi). So I wrote this 
+library. Enjoy ! [Website](https://antoninhrlt.github.io/raslib)
+Although raslib is open source (license MIT), if you make a project from this
+library, i would like to you keep my names on raslib's files, especially for the
+project be a litlle more known.
 
 ## Elements of the library :
  - GPIO controller
- - Motor controller (Written thanks to the GPIO controller, it's only a class allowing to reduce the working time. Make for L298N controller)
- - Socket generator (Only the server.. to you to create the client on an Android app for example. Find [here](https://github.com/antoninhrlt/rasdroid) my Android application to remotely control my Raspberry PI robot)
+ - Motor controller (Written thanks to the GPIO controller, it's only a class 
+ allowing to reduce the working time. Make for L298N controller)
+ - Socket generator (Only the server.. to you to create the client on an Android
+  app for example. Find [here](https://github.com/antoninhrlt/rasdroid) my 
+  Android application to remotely control my Raspberry PI robot)
 
 ## Links :
  - [Install](#Install)
