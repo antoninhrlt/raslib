@@ -42,6 +42,6 @@ install : makel
 	@printf "\033[35mCPf\033[0m $(LIB) $(ARROW) /usr/lib/libraslib.so\n"
 	@sudo cp -f $(LIB) /usr/lib/
 	@printf "\033[35mCPr\033[0m include $(ARROW) /usr/include/raslib/\n"
-	@sudo cp -r include /usr/include/raslib
+	@sudo cp -r include/. /usr/include/raslib
 	@sudo ldconfig
 	@printf "done.\n"
