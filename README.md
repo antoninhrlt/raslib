@@ -1,4 +1,9 @@
 # raslib
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/antoninhrlt/raslib/graphs/commit-activity)
+[![GitHub license](https://img.shields.io/github/license/antoninhrlt/raslib.svg)](https://github.com/antoninhrlt/raslib/blob/master/LICENSE.txt)
+[![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://twitter.com/messages/compose?recipient_id=1171783417828130816&text=(raslib)%20Hello%20Antonin%20!%20I%20would%20like%20...)
+
+
 C++ oriented-object library for Raspberry Pi
 
 <img alt="Loading raslib logo..." src="res/png_logo.png" width="100" 
