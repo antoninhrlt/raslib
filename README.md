@@ -1,8 +1,9 @@
 # raslib
 C++ oriented-object library for Raspberry Pi
 
-<img alt="Loading raslib logo..." src="res/png_logo.png" width="70em" 
-float="left"/> A day, I wanted to use C++ with my Raspberry PI 4B, and I don't 
+<img alt="Loading raslib logo..." src="res/png_logo.png" width="100" 
+align="left"/> 
+A day, I wanted to use C++ with my Raspberry PI 4B, and I don't 
 have find any library who is written in C++ oriented-object that I liked. Like 
 say the proverb : "be the change you want to see" (Gandhi). So I wrote this 
 library. Enjoy ! [Website](https://antoninhrlt.github.io/raslib)
