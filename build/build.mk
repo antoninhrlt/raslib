@@ -2,7 +2,7 @@
 # Copyright (c) Antonin Hérault
 # Under the MIT license
 
-include "build/project.mk"
+include build/project.mk
 
 SRC = $(shell find src -name '*.cpp')
 OBJ = $(SRC:.cpp=.o)
