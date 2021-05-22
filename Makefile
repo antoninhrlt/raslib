@@ -2,4 +2,4 @@
 # Copyright (c) Antonin Hérault
 # Under the MIT license
 
-include "build/build.mk"
+include build/build.mk
