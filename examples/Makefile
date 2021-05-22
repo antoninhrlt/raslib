@@ -1,24 +1,19 @@
-# ******************************************************************************
-# Makefile
-# ******************************************************************************
-# PROJECT : raslib
-# LICENSE : MIT
-# AUTHOR  : Antonin Hérault
-# ******************************************************************************
+# This file is part of raslib
+# Copyright (c) Antonin Hérault
+# Under the MIT license
 
-# ADD ' -lraslib ' !
+# * Don't forget to add the library with flag: -lraslib 
 
 CXX = g++
-FLAGS = -I include -std=c++17 -W -Wall -Wextra -fPIC -pthread \
-	-lraslib
+FLAGS = -I include -std=c++17 -W -Wall -Wextra -fPIC -pthread -lraslib
 
 FILE = main.cpp
 
 blink : blink/$(FILE)
-	$(CXX) $< -o $@/prog $(FLAGS)
+	$(CXX) $< -o $@/blink $(FLAGS)
 
 motor : motor/$(FILE)
-	$(CXX) $< -o $@/prog $(FLAGS)
+	$(CXX) $< -o $@/motor $(FLAGS)
 
 server : server/$(FILE)
-	$(CXX) $< -o $@/prog $(FLAGS)
+	$(CXX) $< -o $@/server $(FLAGS)

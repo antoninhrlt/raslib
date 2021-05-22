@@ -1,12 +1,8 @@
-// *****************************************************************************
-// raslib.hpp
-// *****************************************************************************
-// PROJECT : raslib
-// LICENSE : MIT
-// AUTHOR  : Antonin Hérault
-// *****************************************************************************
+// This file is part of raslib
+// Copyright (c) Antonin Hérault
+// Under the MIT license
 
-#if !defined(__RASLIB__)
+#ifndef __RASLIB__
 #define __RASLIB__
 
 #define to static_cast // example : to<int>(5.3)
@@ -30,5 +26,4 @@ namespace Ras
 
 namespace ras = Ras;
 
-#endif
-// __RASLIB__
+#endif // __RASLIB__

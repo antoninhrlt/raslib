@@ -1,3 +1,7 @@
+// This file is part of raslib
+// Copyright (c) Antonin Hérault
+// Under the MIT license
+
 #include <raslib/raslib.hpp>
 #include <raslib/uti/utils.hpp>
 #include <raslib/pin/l298n.hpp>

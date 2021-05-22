@@ -1,3 +1,7 @@
+// This file is part of raslib
+// Copyright (c) Antonin Hérault
+// Under the MIT license
+
 #include <raslib/raslib.hpp>
 #include <raslib/pin/gpio.hpp>
 #include <raslib/uti/utils.hpp>

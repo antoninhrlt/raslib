@@ -1,10 +1,6 @@
-// *****************************************************************************
-// gpio.cpp
-// *****************************************************************************
-// PROJECT : raslib
-// LICENSE : MIT
-// AUTHOR  : Antonin Hérault
-// *****************************************************************************
+// This file is part of raslib
+// Copyright (c) Antonin Hérault
+// Under the MIT license
 
 #include <pin/gpio.hpp>
 

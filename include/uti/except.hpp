@@ -1,12 +1,8 @@
-// *****************************************************************************
-// except.hpp
-// *****************************************************************************
-// PROJECT : raslib
-// LICENSE : MIT
-// AUTHOR  : Antonin Hérault
-// *****************************************************************************
+// This file is part of raslib
+// Copyright (c) Antonin Hérault
+// Under the MIT license
 
-#if !defined(__RASLIB_EXCEPT__)
+#ifndef __RASLIB_EXCEPT__
 #define __RASLIB_EXCEPT__
 
 #include <raslib.hpp>
@@ -28,5 +24,4 @@ namespace Ras
 	using exception = Exception;
 }
 
-#endif
-// __RASLIB_EXCEPT__
+#endif // __RASLIB_EXCEPT__
