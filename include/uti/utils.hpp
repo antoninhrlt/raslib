@@ -1,10 +1,6 @@
-// *****************************************************************************
-// utils.hpp
-// *****************************************************************************
-// PROJECT : raslib
-// LICENSE : MIT
-// AUTHOR  : Antonin Hérault
-// *****************************************************************************
+// This file is part of raslib
+// Copyright (c) Antonin Hérault
+// Under the MIT license
 
 #if !defined(__RASLIB_UTILS__)
 #define __RASLIB_UTILS__
