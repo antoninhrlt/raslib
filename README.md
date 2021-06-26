@@ -7,8 +7,9 @@
 C++ oriented-object library for Raspberry Pi
 
 <p align="center">
-    <img alt="Loading raslib logo..." src="share/png_logo.png" width="250" /> 
+    <img alt="Loading raslib logo..." src="share/png_logo.png" width="200" /> 
 </p>
+
 A day, I wanted to use C++ with my Raspberry PI 4B, and I don't 
 have find any library who is written in C++ oriented-object that I liked. Like 
 say the proverb : "be the change you want to see" (Gandhi). So I wrote this 
