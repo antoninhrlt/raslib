@@ -24,7 +24,7 @@ $(OUT) : $(OBJ)
 
 .SILENT : $(OBJ)
 %.o : %.cpp
-	$(call cxx, $<, $@)
+	$(call cxx, $<, $@,-c)
 
 
 .SILENT : install
