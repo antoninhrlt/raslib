@@ -5,35 +5,34 @@
 include build/project.mk
 
 SRC = $(shell find src -name '*.cpp')
-OBJ = $(SRC:.cpp=.o)
+OBJ = $(patsubst src/%.cpp,out/%.o,$(SRC))
 
+.SILENT : init
+init :
+	mkdir -p out
+	mkdir -p out/pin
+	mkdir -p out/tcp
+	mkdir -p out/uti
 
-define cxx
-	printf "\033[35mCXX\033[0m $1 \033[35m=>\033[0m $2\n"
-	$(CXX) $1 -o $2 $3 $(FLAGS)
-endef
-
-
-.PHONY : build
-build : $(OUT)
-
+build : init $(OUT)
 
 .SILENT : $(OUT)
 $(OUT) : $(OBJ)
-	$(call cxx,$^,$@,-shared)
+	- echo "CXX $^ -> $@"
+	$(CXX) -shared $^ -o $@ $(FLAGS)
 
 .SILENT : $(OBJ)
-%.o : %.cpp
-	$(call cxx, $<, $@,-c)
-
+out/%.o : src/%.cpp
+	- echo "CXX $< -> $@"
+	$(CXX) -c $< -o $@ $(FLAGS)
 
 .SILENT : install
 .PHONY : install
-install : $(OUT)
-	sudo cp -f $< /usr/lib/
+install : build
+	sudo cp -f $(OUT) /usr/lib/
 	sudo cp -r include/. /usr/include/raslib
 	sudo ldconfig
-
+	- echo "done."
 
 .PHONY : clean
 clean :
