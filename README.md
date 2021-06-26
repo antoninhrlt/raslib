@@ -6,8 +6,9 @@
 
 C++ oriented-object library for Raspberry Pi
 
-<img alt="Loading raslib logo..." src="res/png_logo.png" width="100" 
-align="left"/> 
+<p align="center">
+    <img alt="Loading raslib logo..." src="share/png_logo.png" width="250" /> 
+</p>
 A day, I wanted to use C++ with my Raspberry PI 4B, and I don't 
 have find any library who is written in C++ oriented-object that I liked. Like 
 say the proverb : "be the change you want to see" (Gandhi). So I wrote this 
@@ -15,6 +16,7 @@ library. Enjoy ! [Website](https://antoninhrlt.github.io/raslib)
 Although raslib is open source (license MIT), if you make a project from this
 library, i would like to you keep my names on raslib's files, especially for the
 project be a litlle more known.
+
 
 ## Elements of the library :
  - GPIO controller
