@@ -40,7 +40,7 @@ Done !
 
 ### How to build your project 
 Add compilation flag: `-lraslib`\
-Example: `g++ <files.cpp> -o output -lraslib`
+Example: `g++ <files.cpp> -o output -lraslib -I /usr/include/raslib`
 
 ## Blink a led
 This is only an example, let's place to creativity !
