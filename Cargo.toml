@@ -5,3 +5,4 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+i2clib = { git = "https://github.com/antoninhrlt/i2clib" }
