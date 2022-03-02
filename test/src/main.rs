@@ -3,6 +3,9 @@ use raslib::gpio::Gpio;
 use raslib::l298n::L298n;
 
 use std::thread;
+use std::io::prelude::*;
+use std::net::TcpListener;
+use std::net::TcpStream;
 
 fn blink_led() -> Result<(), std::io::Error> {
     let led = Gpio::new(16)?;
@@ -24,8 +27,26 @@ fn motor_test() -> Result<(), std::io::Error> {
 
     Ok(())
 }
+   
+fn server() {
+    let server = TcpListener::bind("127.0.0.1:9000").unwrap();
+
+    for stream in server.incoming() {
+        let mut stream: TcpStream = stream.unwrap();
+
+        let mut signal = [0; 1];
+        loop {
+            stream.read(&mut signal); 
+            if signal[0] == 0 {
+                break;
+            }
+        }
+    }
+}
 
 fn main() {
+    server();
+
     thread::spawn(|| blink_led().unwrap());
     thread::spawn(|| motor_test().unwrap());
 }
