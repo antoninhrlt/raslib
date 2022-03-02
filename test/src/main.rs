@@ -29,7 +29,7 @@ fn motor_test() -> Result<(), std::io::Error> {
 }
    
 fn server() {
-    let server = TcpListener::bind("127.0.0.1:9000").unwrap();
+    let server = TcpListener::bind("192.169.0.138:9000").unwrap();
 
     for stream in server.incoming() {
         let mut stream: TcpStream = stream.unwrap();
