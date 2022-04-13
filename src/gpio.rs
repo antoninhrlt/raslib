@@ -22,9 +22,10 @@ impl Gpio {
         Self { pin: pin }.init()
     }
 
-    /// Created to be called in the constructor, the user should not call it \
-    /// Init the export and direction files
-    pub fn init(&self) -> Result<Self, io::Error> {
+    /// Init the export and direction files \
+    /// Created to be called in the constructor, could not be called by the 
+    /// user
+    fn init(&self) -> Result<Self, io::Error> {
         let mut stream = File::create(format!("{}/export", PATH))?;
         write!(stream, "{}", self.pin)?;
 
@@ -49,7 +50,7 @@ impl Gpio {
         Ok(retrieved.parse::<bool>().expect("Invalid GPIO file value"))
     }
 
-    /// Get a specific file into the GPIO directory
+    /// Get a specific file path as String from the GPIO directory
     fn gpio_file(&self, filename: &str) -> String {
         match filename {
             "value" => {},
