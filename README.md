@@ -1,10 +1,8 @@
+<img src="share/png_logo.png" align="right" width="20%" alt="raslib logo">
+
 # raslib
 Raspberry PI library for Rust. GPIO controller, L298N motors, sockets and 
 "i2clib" integrated 
-
-<p align="center">
-    <img src="https://github.com/antoninhrlt/raslib-cpp/raw/main/share/png_logo.png" width="40%">
-</p>
 
 All tests are made on Raspberry PI 4B+ on Raspbian OS
 
