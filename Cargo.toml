@@ -1,8 +1,11 @@
 [package]
 name = "raslib"
 authors = ["Antonin Hérault <antonherault@gmail.com>"]
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
+description = "Manage a Raspberry Pi device from Rust. GPIO ports and L298N motors controller"
+keywords = ["raspberry", "raspberrypi", "gpio", "l298n", "i2c"]
+repository = "https://github.com/antoninhrlt/raslib"
+license = "MIT"
 
 [dependencies]
-i2clib = { git = "https://github.com/antoninhrlt/i2clib" }
