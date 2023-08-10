@@ -1,4 +1,4 @@
-use raslib::gpio::Gpio;
+use raslib::Gpio;
 
 fn main() -> Result<(), std::io::Error> {
     let led = Gpio::new(16)?;

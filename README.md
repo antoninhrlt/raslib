@@ -60,7 +60,7 @@ Check the current version on [crates.io](https://crates.io/crates/raslib).
   #### Usage
 
   ```rust
-  use raslib::gpio::Gpio;
+  use raslib::Gpio;
   ```
   ```rust
   let gpio = Gpio::new(16)?;
@@ -101,7 +101,7 @@ Check the current version on [crates.io](https://crates.io/crates/raslib).
   #### Usage
 
   ```rust
-  use raslib::l298n::L298n;
+  use raslib::L298n;
   ```
 
   ```rust
