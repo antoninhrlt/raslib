@@ -1,11 +1,16 @@
 [package]
 name = "raslib"
-authors = ["Antonin Hérault <antonherault@gmail.com>"]
-version = "0.1.1"
+authors = ["Antonin Hérault <antoninhrlt@proton.me>"]
+version = "0.1.2"
 edition = "2021"
-description = "Manage a Raspberry Pi device from Rust. GPIO ports and L298N motors controller"
-keywords = ["raspberry", "raspberrypi", "gpio", "l298n", "i2c"]
-repository = "https://github.com/antoninhrlt/raslib"
 license = "MIT"
+description = "Manage Raspberry PI devices with Rust. GPIO ports and direct support for L298N circuit motors"
+keywords = ["raspberry", "raspberrypi", "gpio", "l298n", "embedded"]
+repository = "https://github.com/antoninhrlt/raslib"
+documentation = "https://docs.rs/raslib"
 
 [dependencies]
+
+[package.metadata.docs.rs]
+rustdoc-args = ["--cfg", "docsrs"]
+all-features = true
