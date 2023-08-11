@@ -5,6 +5,7 @@
 use std::fs::File;
 use std::io;
 use std::io::{Read, Write};
+use std::path::Path;
 
 const PATH: &str = "/sys/class/gpio";
 
@@ -64,10 +65,14 @@ impl Gpio {
 impl Gpio {
     /// Initialises the export and direction files for the GPIO pin.
     fn init(self) -> Result<Self, io::Error> {
-        // Exports the pin to be able to access to it.
-        let mut stream = File::create(format!("{}/export", PATH))?;
-        // Writes the pin number in the export file.
-        write!(stream, "{}", self.pin)?;
+        // No need to export the gpio port again.
+        // Otherwise, it will throw an error.
+        if !Path::new(&format!("{}/gpio{}", PATH, self.pin)).exists() {
+            // Exports the pin to be able to access to it.
+            let mut stream = File::create(format!("{}/export", PATH))?;
+            // Writes the pin number in the export file.
+            write!(stream, "{}", self.pin)?;
+        }
 
         // Sets the direction for the pin as "out".
         let mut stream = File::create(self.gpio_file("direction"))?;
