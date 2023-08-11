@@ -17,6 +17,7 @@
 
 mod gpio;
 mod l298n;
+pub mod net;
 
 pub use gpio::Gpio;
 pub use l298n::L298n;
