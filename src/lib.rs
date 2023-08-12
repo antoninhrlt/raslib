@@ -34,3 +34,22 @@ pub fn sleep(milliseconds: u64) {
     use std::time::Duration;
     thread::sleep(Duration::from_millis(milliseconds));
 }
+
+/// Converts a string value into a boolean value.
+/// 
+/// The string must be either "0" or "1".
+/// 
+/// ## Note
+/// This function is different than [str::parse](core::str)! Indeed, it parses 
+/// a string that represents a boolean value as a number and not "true" or 
+/// "false". 
+pub(crate) fn str_to_bool(str: &str) -> bool {
+    // Parses string to an u8 value.
+    let value = str.parse::<u8>().expect("given str must represent an unsigned integer value");
+
+    // The u8 value must be 0 or 1.
+    assert!(value == 0 || value == 1, "invalid cast {} to boolean, value must be '0' or '1'", str);
+
+    // Returns the value as a boolean.
+    value != 0
+}

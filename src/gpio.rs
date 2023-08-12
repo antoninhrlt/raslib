@@ -1,6 +1,6 @@
 // This file is part of "raslib"
 // Under the MIT License
-// Copyright (c) Antonin Hérault
+// Copyright (c) 2023 Antonin Hérault
 
 use std::fs::File;
 use std::io;
@@ -50,8 +50,8 @@ impl Gpio {
         // Reads the file as a string.
         let mut retrieved = String::new();
         stream.read_to_string(&mut retrieved)?;
-        // Parses its content to a boolean value.
-        Ok(retrieved.parse::<bool>().expect("Invalid GPIO file value"))
+
+        Ok(crate::str_to_bool(&retrieved))
     }
 
     /// Returns the GPIO pin number.
@@ -67,6 +67,8 @@ impl Gpio {
     fn init(self) -> Result<Self, io::Error> {
         // No need to export the gpio port again.
         // Otherwise, it will throw an error.
+        println!("{}/gpio{}", PATH, self.pin);
+
         if !Path::new(&format!("{}/gpio{}", PATH, self.pin)).exists() {
             // Exports the pin to be able to access to it.
             let mut stream = File::create(format!("{}/export", PATH))?;
