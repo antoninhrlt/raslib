@@ -51,6 +51,9 @@ impl Gpio {
         let mut retrieved = String::new();
         stream.read_to_string(&mut retrieved)?;
 
+        // Removes the last character which is `\n`.
+        retrieved.pop();
+
         Ok(crate::str_to_bool(&retrieved))
     }
 
