@@ -1,6 +1,6 @@
 // This file is part of "raslib"
 // Under the MIT License
-// Copyright (c) Antonin Hérault
+// Copyright (c) 2023 Antonin Hérault
 
 //! # raslib
 //! To discover the library and its purpose, check the
@@ -18,6 +18,7 @@
 mod gpio;
 mod l298n;
 pub mod net;
+pub mod temp;
 
 pub use gpio::Gpio;
 pub use l298n::L298n;
