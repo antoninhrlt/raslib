@@ -7,29 +7,38 @@ use std::io;
 use std::io::{Read, Write};
 use std::path::Path;
 
+use crate::Direction;
+
 const PATH: &str = "/sys/class/gpio";
 
 /// Manages a gpio pin to write on (in order set it high or low) and read its
 /// value.
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct Gpio {
     /// The GPIO pin managed.
     pin: u32,
+    /// Direction of the GPIO pin.
+    direction: Direction,
 }
 
 impl Gpio {
-    /// Creates a new [`Gpio`] object on a pin from its number and initialises
-    /// its files.
-    ///
-    /// Because Raspberry PI devices can't have more than 40 pins, the given
-    /// `pin` must follow this condition: `pin <= 40`.
+    /// Initialises the GPIO pin and sets its direction to "out". 
     pub fn new(pin: u32) -> Result<Self, io::Error> {
+        Self::with_direction(pin, Direction::Out)
+    }
+    
+    /// Initialises the GPIO pin with the given [`Direction`].
+    pub fn with_direction(pin: u32, direction: Direction)-> Result<Self, io::Error> {
         // Checks if the GPIO pin is valid.
         // Raspberry PI devices have only 40 GPIO pins.
         assert!(pin <= 40, "Invalid GPIO pin identifier (must be < 40)");
 
         // Inits the GPIO pin files.
-        Self { pin: pin }.init()
+        Self {
+            pin: pin,
+            direction,
+        }
+        .init()
     }
 
     /// Writes the value to the GPIO value file and then activate or deactivate
@@ -57,6 +66,15 @@ impl Gpio {
         Ok(crate::str_to_bool(&retrieved))
     }
 
+    /// Changes the direction of the GPIO pin. Can be either "out" or "in".
+    pub fn change_direction(&self, direction: Direction) -> Result<(), io::Error> {
+        // Opens or creates then opens the direction file to set the GPIO pin
+        // direction.
+        let mut stream = File::create(self.gpio_file("direction"))?;
+        // Writes the direction for the GPIO pin.
+        write!(stream, "{}", direction.to_string())
+    }
+
     /// Returns the GPIO pin number.
     ///
     /// It was specified in [`new`](Gpio::new).
@@ -70,8 +88,6 @@ impl Gpio {
     fn init(self) -> Result<Self, io::Error> {
         // No need to export the gpio port again.
         // Otherwise, it will throw an error.
-        println!("{}/gpio{}", PATH, self.pin);
-
         if !Path::new(&format!("{}/gpio{}", PATH, self.pin)).exists() {
             // Exports the pin to be able to access to it.
             let mut stream = File::create(format!("{}/export", PATH))?;
@@ -79,9 +95,7 @@ impl Gpio {
             write!(stream, "{}", self.pin)?;
         }
 
-        // Sets the direction for the pin as "out".
-        let mut stream = File::create(self.gpio_file("direction"))?;
-        write!(stream, "out")?;
+        self.change_direction(self.direction)?;
 
         // Returns self to be returned by `new`.
         Ok(self)

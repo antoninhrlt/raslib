@@ -15,13 +15,33 @@
 #![warn(missing_docs)]
 #![warn(missing_debug_implementations)]
 
+pub mod dht;
 mod gpio;
 mod l298n;
 pub mod net;
 pub mod temp;
 
+pub use dht::DHT;
 pub use gpio::Gpio;
 pub use l298n::L298n;
+
+/// Direction for a [`GPIO`](self::Gpio) pin.
+#[derive(Debug, Clone, Copy)]
+pub enum Direction {
+    /// Direction "out".
+    Out,
+    /// Direction "in".
+    In,
+}
+
+impl ToString for Direction {
+    fn to_string(&self) -> String {
+        match self {
+            Direction::In => "in",
+            Direction::Out => "out",
+        }.to_string()
+    }
+}
 
 /// Constant to use when writing on pins.
 pub const HIGH: bool = true;
