@@ -87,7 +87,7 @@ impl Dht {
             if t_ms > time_out_ms {
                 return Err(io::Error::new(
                     io::ErrorKind::TimedOut,
-                    format!("take too much time to read data (time out = {}ms", time_out_ms),
+                    format!("take too much time to read data (time out = {}ms)", time_out_ms),
                 ));
             }
 
@@ -119,10 +119,10 @@ impl Dht {
         // Also, it switches to "input" to receive the data.
         self.rdata.change_direction(Direction::In)?;
 
-        // Now the bus is released, the sensor sends out a response: "low"
-        // for 80ms. Then, it outputs a "high" for 80ms.
-        self.get_signal(85, false)?;
-        self.get_signal(85, true)?;
+        // // Now the bus is released, the sensor sends out a response: "low"
+        // // for 80ms. Then, it outputs a "high" for 80ms.
+        // self.get_signal(85, false)?;
+        // self.get_signal(85, true)?;
 
         let mut data: Data = Data::new();
         let mut raw_data: Vec<u8> = vec![];
