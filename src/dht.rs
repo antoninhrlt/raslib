@@ -92,7 +92,7 @@ impl Dht {
             }
 
             t += 1;
-            thread::sleep(Duration::from_millis(1));
+            thread::sleep(Duration::from_micros(1));
         }
 
         return Ok(t);
