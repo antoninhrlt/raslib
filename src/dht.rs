@@ -117,11 +117,8 @@ impl Dht {
                     // ));
                 }
 
-                let val = self.rdata.read()?;
-                println!("({} % 2 == 0) == {}; rdata.read() = {}", i, i % 2 == 0, val);
-
                 // Note: (i % 2 != 0) == (i & 1)
-                if !(val == (i % 2 == 0)) {
+                if !(self.rdata.read()? == (i % 2 != 0)) {
                     break;
                 }
             }
