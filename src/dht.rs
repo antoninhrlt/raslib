@@ -95,6 +95,8 @@ impl Dht {
         
         // Now the bus is released, the sensor sends out a response: "low" 
         // for 80ms. Then, it outputs a "high" for 80ms.
+        println!("{}", self.rdata.read()?);
+        println!("{}", self.rdata.read()?);
         // crate::sleep(160);
 
         let mut data: Data = Data::new();
