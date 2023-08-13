@@ -87,7 +87,7 @@ impl Dht {
             if t_ms > time_out_ms {
                 return Err(io::Error::new(
                     io::ErrorKind::TimedOut,
-                    "take too much time to read data",
+                    format!("take too much time to read data (time out = {}ms", time_out_ms),
                 ));
             }
 
