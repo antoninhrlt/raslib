@@ -86,18 +86,16 @@ impl Dht {
         self.rdata.change_direction(Direction::Out)?;
         self.rdata.write(crate::LOW)?;
         // Needs to wait more than 800μs.
-        crate::sleep(1);
+        crate::sleep(18);
+
+        self.rdata.write(crate::HIGH)?;
 
         // Comes back to "in" to release the bus.
         self.rdata.change_direction(Direction::In)?;
         // The GPIO pin goes "high". 
-
         
         // Now the bus is released, the sensor sends out a response: "low" 
         // for 80ms. Then, it outputs a "high" for 80ms.
-        println!("{}", self.rdata.read()?);
-        println!("{}", self.rdata.read()?);
-        // crate::sleep(160);
 
         let mut data: Data = Data::new();
         let mut raw_data: u16 = 0;
@@ -113,10 +111,11 @@ impl Dht {
                 println!("live == {} (0.00009)", live);
 
                 if live > 90.0 / 1000000.0 {
-                    return Err(io::Error::new(
-                        io::ErrorKind::TimedOut,
-                        "take too much time to read data",
-                    ));
+                    println!("timeout i guess");
+                    // return Err(io::Error::new(
+                    //     io::ErrorKind::TimedOut,
+                    //     "take too much time to read data",
+                    // ));
                 }
 
                 // Note: (i % 2 != 0) == (i & 1)
