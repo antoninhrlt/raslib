@@ -130,7 +130,7 @@ impl Dht {
         let mut bit_index: u8 = 7;
 
         for i in 0..40 {
-            let t: i32 = self.get_signal(56, false)?;
+            // let t: i32 = self.get_signal(56, false)?;
             let t: i32 = self.get_signal(75, true)?;
 
             if t > 40 {
