@@ -86,7 +86,7 @@ impl Dht {
         self.rdata.change_direction(Direction::Out)?;
         self.rdata.write(crate::LOW)?;
         // Needs to wait more than 800μs.
-        crate::sleep(1);
+        crate::sleep(1000);
         self.rdata.write(crate::HIGH)?;
 
         // Comes back to "in" to release the bus.
