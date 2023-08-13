@@ -80,22 +80,22 @@ impl Dht {
 }
 
 impl Dht {
-    fn get_signal(&self, time_out: i32, state: bool) -> Result<i32, io::Error> {
-        let mut t: i32 = 0;
+    fn get_signal(&self, time_out_ms: i32, state: bool) -> Result<i32, io::Error> {
+        let mut t_ms: i32 = 0;
 
         while self.rdata.read()? == state {
-            if t > time_out {
+            if t_ms > time_out_ms {
                 return Err(io::Error::new(
                     io::ErrorKind::TimedOut,
                     "take too much time to read data",
                 ));
             }
 
-            t += 1;
-            thread::sleep(Duration::from_micros(1));
+            t_ms += 1;
+            thread::sleep(Duration::from_millis(1));
         }
 
-        return Ok(t);
+        return Ok(t_ms);
     }
 
     /// Single-bus data is used for communication between the Raspberry PI and
@@ -110,10 +110,10 @@ impl Dht {
         self.rdata.change_direction(Direction::Out)?;
         self.rdata.write(crate::LOW)?;
         // Needs to wait more than 800μs.
-        crate::sleep(1);
+        crate::sleep(3);
 
         self.rdata.write(crate::HIGH)?;
-        thread::sleep(Duration::from_millis(25));
+        thread::sleep(Duration::from_micros(25));
 
         // Releases the bus (but return to "high" due to pull-up resistor).
         // Also, it switches to "input" to receive the data.
