@@ -60,6 +60,12 @@ impl Dht {
         })
     }
 
+    /// Inits the sensor.
+    pub fn init(&self) {
+        // Waits 2 seconds to let the sensor initializes.
+        crate::sleep(2000);
+    }
+
     /// Reads the data that the GPIO pin receives and returns it as [`DHTData`]
     /// which is basically containing the temperature and humidity received
     /// from the sensor.
@@ -92,9 +98,9 @@ impl Dht {
 
         // Comes back to "in" to release the bus.
         self.rdata.change_direction(Direction::In)?;
-        // The GPIO pin goes "high". 
-        
-        // Now the bus is released, the sensor sends out a response: "low" 
+        // The GPIO pin goes "high".
+
+        // Now the bus is released, the sensor sends out a response: "low"
         // for 80ms. Then, it outputs a "high" for 80ms.
 
         let mut data: Data = Data::new();
@@ -102,39 +108,33 @@ impl Dht {
 
         // The sensor sends a string of 40 bits of serial data continuously.
         for i in 0..80 {
-            // let mut live: f32;
+            let mut live: f32;
 
-            // let start_time = Instant::now();
+            let start_time = Instant::now();
 
-            // loop {
-            //     live = (Instant::now() - start_time).as_secs_f32();
-            //     println!("live == {} (0.00009)", live);
+            loop {
+                live = (Instant::now() - start_time).as_secs_f32();
+                println!("live == {} (0.00009)", live);
 
-            //     if live > 90.0 / 1000000.0 {
-            //         // return Err(io::Error::new(
-            //         //     io::ErrorKind::TimedOut,
-            //         //     "take too much time to read data",
-            //         // ));
-            //     }
+                if live > 90.0 / 1000000.0 {
+                    return Err(io::Error::new(
+                        io::ErrorKind::TimedOut,
+                        "take too much time to read data",
+                    ));
+                }
 
-            //     // Note: (i % 2 != 0) == (i & 1)
-            //     let v = if i % 2 != 0 {
-            //         true
-            //     } else {
-            //         false
-            //     };
-
-            //     if !(self.rdata.read()? == v) {
-            //         break;
-            //     }
-            // }
+                // Note: (i % 2 != 0) == (i & 1)
+                if !(self.rdata.read()? == if i % 2 != 0 { true } else { false }) {
+                    break;
+                }
+            }
 
             if i >= 0 && (i % 2 != 0) {
                 raw_data <<= 1;
 
-                // if live > 30.0 / 1000000.0 {
-                //     raw_data |= 1;
-                // }
+                if live > 30.0 / 1000000.0 {
+                    raw_data |= 1;
+                }
             }
 
             match i {
