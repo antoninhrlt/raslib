@@ -101,7 +101,7 @@ impl Dht {
         let mut raw_data: u16 = 0;
 
         // The sensor sends a string of 40 bits of serial data continuously.
-        for i in -3..80 {
+        for i in 0..80 {
             let mut live: f32;
 
             let start_time = Instant::now();
