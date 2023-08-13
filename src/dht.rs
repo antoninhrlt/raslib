@@ -132,9 +132,9 @@ impl Dht {
             if i >= 0 && (i % 2 != 0) {
                 raw_data <<= 1;
 
-                if live > 30.0 / 1000000.0 {
-                    raw_data |= 1;
-                }
+                // if live > 30.0 / 1000000.0 {
+                //     raw_data |= 1;
+                // }
             }
 
             match i {
