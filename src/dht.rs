@@ -86,16 +86,16 @@ impl Dht {
         self.rdata.change_direction(Direction::Out)?;
         self.rdata.write(crate::LOW)?;
         // Needs to wait more than 800μs.
-        crate::sleep(1000);
-        self.rdata.write(crate::HIGH)?;
+        crate::sleep(1);
 
         // Comes back to "in" to release the bus.
         self.rdata.change_direction(Direction::In)?;
+        // The GPIO pin goes "high". 
 
-        // The GPIO pin goes "high". After the host released the bus, the
-        // sensor sends out a response: "low" for 80ms. Then, it outputs a
-        // "high" for 80ms.
-        crate::sleep(160);
+        
+        // Now the bus is released, the sensor sends out a response: "low" 
+        // for 80ms. Then, it outputs a "high" for 80ms.
+        // crate::sleep(160);
 
         let mut data: Data = Data::new();
         let mut raw_data: u16 = 0;
