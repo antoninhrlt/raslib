@@ -15,13 +15,13 @@
 #![warn(missing_docs)]
 #![warn(missing_debug_implementations)]
 
-// pub mod dht;
+pub mod dht;
 mod gpio;
 mod l298n;
 pub mod net;
 pub mod temp;
 
-// pub use dht::DHT;
+pub use dht::Dht;
 pub use gpio::Gpio;
 pub use l298n::L298n;
 
