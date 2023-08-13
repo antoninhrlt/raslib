@@ -102,32 +102,32 @@ impl Dht {
 
         // The sensor sends a string of 40 bits of serial data continuously.
         for i in 0..80 {
-            let mut live: f32;
+            // let mut live: f32;
 
-            let start_time = Instant::now();
+            // let start_time = Instant::now();
 
-            loop {
-                live = (Instant::now() - start_time).as_secs_f32();
-                println!("live == {} (0.00009)", live);
+            // loop {
+            //     live = (Instant::now() - start_time).as_secs_f32();
+            //     println!("live == {} (0.00009)", live);
 
-                if live > 90.0 / 1000000.0 {
-                    // return Err(io::Error::new(
-                    //     io::ErrorKind::TimedOut,
-                    //     "take too much time to read data",
-                    // ));
-                }
+            //     if live > 90.0 / 1000000.0 {
+            //         // return Err(io::Error::new(
+            //         //     io::ErrorKind::TimedOut,
+            //         //     "take too much time to read data",
+            //         // ));
+            //     }
 
-                // Note: (i % 2 != 0) == (i & 1)
-                let v = if i % 2 != 0 {
-                    true
-                } else {
-                    false
-                };
-                
-                if !(self.rdata.read()? == v) {
-                    break;
-                }
-            }
+            //     // Note: (i % 2 != 0) == (i & 1)
+            //     let v = if i % 2 != 0 {
+            //         true
+            //     } else {
+            //         false
+            //     };
+
+            //     if !(self.rdata.read()? == v) {
+            //         break;
+            //     }
+            // }
 
             if i >= 0 && (i % 2 != 0) {
                 raw_data <<= 1;
