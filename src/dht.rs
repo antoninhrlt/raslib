@@ -60,6 +60,12 @@ impl Dht {
         })
     }
 
+    /// Inits the sensor.
+    pub fn init(&self) {
+        // Waits 2 seconds to let the sensor initializes.
+        crate::sleep(2000);
+    }
+
     /// Reads the data that the GPIO pin receives and returns it as [`DHTData`]
     /// which is basically containing the temperature and humidity received
     /// from the sensor.
@@ -86,27 +92,29 @@ impl Dht {
         self.rdata.change_direction(Direction::Out)?;
         self.rdata.write(crate::LOW)?;
         // Needs to wait more than 800μs.
-        crate::sleep(1);
+        crate::sleep(18);
+
+        self.rdata.write(crate::HIGH)?;
 
         // Comes back to "in" to release the bus.
         self.rdata.change_direction(Direction::In)?;
+        // The GPIO pin goes "high".
 
-        // The GPIO pin goes "high". After the host released the bus, the
-        // sensor sends out a response: "low" for 80ms. Then, it outputs a
-        // "high" for 80ms.
-        crate::sleep(160);
+        // Now the bus is released, the sensor sends out a response: "low"
+        // for 80ms. Then, it outputs a "high" for 80ms.
 
         let mut data: Data = Data::new();
         let mut raw_data: u16 = 0;
 
         // The sensor sends a string of 40 bits of serial data continuously.
-        for i in -3..80 {
+        for i in 0..80 {
             let mut live: f32;
 
             let start_time = Instant::now();
 
             loop {
                 live = (Instant::now() - start_time).as_secs_f32();
+                println!("live == {} (0.00009)", live);
 
                 if live > 90.0 / 1000000.0 {
                     return Err(io::Error::new(
@@ -116,7 +124,7 @@ impl Dht {
                 }
 
                 // Note: (i % 2 != 0) == (i & 1)
-                if self.rdata.read()? == (i % 2 != 0) {
+                if !(self.rdata.read()? == if i % 2 != 0 { true } else { false }) {
                     break;
                 }
             }
