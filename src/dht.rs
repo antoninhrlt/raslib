@@ -119,7 +119,7 @@ impl Dht {
                 }
 
                 // Note: (i % 2 != 0) == (i & 1)
-                if self.rdata.read()? == (i % 2 != 0) {
+                if self.rdata.read()? == (i % 2 == 0) {
                     break;
                 }
             }
