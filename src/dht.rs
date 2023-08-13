@@ -84,10 +84,7 @@ impl Dht {
         let mut t: i32 = 0;
 
         while self.rdata.read()? == state {
-            println!("{} > {}", self.rdata.read()?, state);
-
             if t > time_out {
-                println!("{} > {}", t, time_out);
                 return Err(io::Error::new(
                     io::ErrorKind::TimedOut,
                     "take too much time to read data",
@@ -116,7 +113,7 @@ impl Dht {
         crate::sleep(1);
 
         self.rdata.write(crate::HIGH)?;
-        thread::sleep(Duration::from_micros(25));
+        thread::sleep(Duration::from_millis(25));
 
         // Releases the bus (but return to "high" due to pull-up resistor).
         // Also, it switches to "input" to receive the data.
@@ -124,14 +121,13 @@ impl Dht {
 
         // Now the bus is released, the sensor sends out a response: "low"
         // for 80ms. Then, it outputs a "high" for 80ms.
+        self.get_signal(85, false)?;
+        self.get_signal(85, true)?;
 
         let mut data: Data = Data::new();
         let mut raw_data: Vec<u8> = vec![];
         let mut raw_data_index: usize = 0;
         let mut bit_index: u8 = 7;
-
-        self.get_signal(85, false)?;
-        self.get_signal(85, true)?;
 
         for i in 0..40 {
             let t: i32 = self.get_signal(56, false)?;
