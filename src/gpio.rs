@@ -72,7 +72,7 @@ impl Gpio {
         retrieved.pop();
 
         let x = crate::str_to_bool(&retrieved);
-        println!("{:?}", now.elapsed());
+        println!("{:?}\n", now.elapsed());
         Ok(x)
     }
 
