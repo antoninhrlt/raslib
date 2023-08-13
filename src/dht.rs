@@ -84,6 +84,8 @@ impl Dht {
         let mut t: i32 = 0;
 
         while self.rdata.read()? == state {
+            println!("{} > {}", self.rdata.read()?, state);
+
             if t > time_out {
                 println!("{} > {}", t, time_out);
                 return Err(io::Error::new(
