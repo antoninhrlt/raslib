@@ -6,6 +6,7 @@ use std::fs::File;
 use std::io;
 use std::io::{Read, Write};
 use std::path::Path;
+use std::time::Instant;
 
 use crate::Direction;
 
@@ -53,17 +54,26 @@ impl Gpio {
     /// Reads the value contained into the GPIO value file and returns it as a
     /// boolean.
     pub fn read(&self) -> Result<bool, io::Error> {
+        let now = Instant::now();
+
         // Opens the value file for the GPIO pin.
         let mut stream = File::open(self.gpio_file("value"))?;
+
+        println!("{:?}", now.elapsed());
 
         // Reads the file as a string.
         let mut retrieved = String::new();
         stream.read_to_string(&mut retrieved)?;
 
+        println!("{:?}", now.elapsed());
+
+
         // Removes the last character which is `\n`.
         retrieved.pop();
 
-        Ok(crate::str_to_bool(&retrieved))
+        let x = crate::str_to_bool(&retrieved);
+        println!("{:?}", now.elapsed());
+        Ok(x)
     }
 
     /// Changes the direction of the GPIO pin. Can be either "out" or "in".
