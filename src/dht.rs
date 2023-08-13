@@ -80,6 +80,24 @@ impl Dht {
 }
 
 impl Dht {
+    fn get_signal(&self, time_out: i32, state: bool) -> Result<i32, io::Error> {
+        let mut t: i32 = 0;
+
+        while self.rdata.read()? == state {
+            if t > time_out {
+                return Err(io::Error::new(
+                    io::ErrorKind::TimedOut,
+                    "take too much time to read data",
+                ));
+            }
+
+            t += 1;
+            thread::sleep(Duration::from_millis(1));
+        }
+
+        return Ok(t);
+    }
+
     /// Single-bus data is used for communication between the Raspberry PI and
     /// the DHT22 sensor. It costs 5mS for single time communication.
     ///
@@ -92,58 +110,90 @@ impl Dht {
         self.rdata.change_direction(Direction::Out)?;
         self.rdata.write(crate::LOW)?;
         // Needs to wait more than 800μs.
-        crate::sleep(18);
+        crate::sleep(1);
 
         self.rdata.write(crate::HIGH)?;
+        thread::sleep(Duration::from_micros(25));
 
-        // Comes back to "in" to release the bus.
+        // Releases the bus (but return to "high" due to pull-up resistor).
+        // Also, it switches to "input" to receive the data.
         self.rdata.change_direction(Direction::In)?;
-        // The GPIO pin goes "high".
 
         // Now the bus is released, the sensor sends out a response: "low"
         // for 80ms. Then, it outputs a "high" for 80ms.
 
         let mut data: Data = Data::new();
-        let mut raw_data: u16 = 0;
+        let mut raw_data: Vec<u8> = vec![];
+        let mut raw_data_index: usize = 0;
+        let mut bit_index: u8 = 7;
 
-        // The sensor sends a string of 40 bits of serial data continuously.
-        for i in 0..80 {
-            let mut live: f32;
+        self.get_signal(85, false)?;
+        self.get_signal(85, true)?;
 
-            let start_time = Instant::now();
+        for i in 0..40 {
+            let t: i32 = self.get_signal(56, false)?;
+            let t: i32 = self.get_signal(75, true)?;
 
-            loop {
-                live = (Instant::now() - start_time).as_secs_f32();
-                println!("live == {} (0.00009)", live);
-
-                if live > 90.0 / 1000000.0 {
-                    return Err(io::Error::new(
-                        io::ErrorKind::TimedOut,
-                        "take too much time to read data",
-                    ));
-                }
-
-                // Note: (i % 2 != 0) == (i & 1)
-                if !(self.rdata.read()? == if i % 2 != 0 { true } else { false }) {
-                    break;
-                }
+            if t > 40 {
+                raw_data[raw_data_index] |= 1 << bit_index;
             }
 
-            if i >= 0 && (i % 2 != 0) {
-                raw_data <<= 1;
-
-                if live > 30.0 / 1000000.0 {
-                    raw_data |= 1;
-                }
-            }
-
-            match i {
-                31 => data.humidity = raw_data as f32,
-                63 => data.temperature = raw_data as f32,
-                79 => break,
-                _ => {}
+            if bit_index == 0 {
+                bit_index = 7;
+                raw_data_index += 1;
+            } else {
+                bit_index -= 1;
             }
         }
+
+        data.humidity = raw_data[0] as f32;
+        data.humidity *= 0x100 as f32;
+        data.humidity += raw_data[1] as f32;
+        data.humidity /= 10 as f32;
+
+        data.temperature = (raw_data[2] & 0x7F) as f32;
+        data.temperature *= 0x100 as f32;
+        data.temperature += raw_data[3] as f32;
+        data.temperature /= 10 as f32;
+
+        // // The sensor sends a string of 40 bits of serial data continuously.
+        // for i in 0..80 {
+        //     let mut live: f32;
+
+        //     let start_time = Instant::now();
+
+        //     loop {
+        //         live = (Instant::now() - start_time).as_secs_f32();
+        //         println!("live == {} (0.00009)", live);
+
+        //         if live > 90.0 / 1000000.0 {
+        //             return Err(io::Error::new(
+        //                 io::ErrorKind::TimedOut,
+        //                 "take too much time to read data",
+        //             ));
+        //         }
+
+        //         // Note: (i % 2 != 0) == (i & 1)
+        //         if !(self.rdata.read()? == if i % 2 != 0 { true } else { false }) {
+        //             break;
+        //         }
+        //     }
+
+        //     if i >= 0 && (i % 2 != 0) {
+        //         raw_data <<= 1;
+
+        //         if live > 30.0 / 1000000.0 {
+        //             raw_data |= 1;
+        //         }
+        //     }
+
+        //     match i {
+        //         31 => data.humidity = raw_data as f32,
+        //         63 => data.temperature = raw_data as f32,
+        //         79 => break,
+        //         _ => {}
+        //     }
+        // }
 
         // Then it remains "low" for 50ms, switches to "in" and goes "high".
 
