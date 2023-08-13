@@ -91,8 +91,6 @@ impl Dht {
 
         // Comes back to "in" to release the bus.
         self.rdata.change_direction(Direction::In)?;
-        
-        self.rdata.write(crate::HIGH)?;
 
         // The GPIO pin goes "high". After the host released the bus, the
         // sensor sends out a response: "low" for 80ms. Then, it outputs a
