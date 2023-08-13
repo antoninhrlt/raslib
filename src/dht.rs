@@ -111,15 +111,17 @@ impl Dht {
                 println!("live == {} (0.00009)", live);
 
                 if live > 90.0 / 1000000.0 {
-                    println!("timeout i guess");
                     // return Err(io::Error::new(
                     //     io::ErrorKind::TimedOut,
                     //     "take too much time to read data",
                     // ));
                 }
 
+                let val = self.rdata.read()?;
+                println!("(i % 2 == 0) == {}; rdata.read() = {}", i % 2 == 0, val);
+
                 // Note: (i % 2 != 0) == (i & 1)
-                if self.rdata.read()? == (i % 2 == 0) {
+                if val == (i % 2 == 0) {
                     break;
                 }
             }
