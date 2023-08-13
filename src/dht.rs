@@ -118,7 +118,13 @@ impl Dht {
                 }
 
                 // Note: (i % 2 != 0) == (i & 1)
-                if !(self.rdata.read()? == (i % 2 != 0)) {
+                let v = if i % 2 != 0 {
+                    true
+                } else {
+                    false
+                };
+                
+                if !(self.rdata.read()? == v) {
                     break;
                 }
             }
