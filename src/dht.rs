@@ -85,6 +85,7 @@ impl Dht {
 
         while self.rdata.read()? == state {
             if t > time_out {
+                println!("{} > {}", t, time_out);
                 return Err(io::Error::new(
                     io::ErrorKind::TimedOut,
                     "take too much time to read data",
