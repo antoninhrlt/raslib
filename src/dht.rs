@@ -119,10 +119,10 @@ impl Dht {
         // Also, it switches to "input" to receive the data.
         self.rdata.change_direction(Direction::In)?;
 
-        // // Now the bus is released, the sensor sends out a response: "low"
-        // // for 80ms. Then, it outputs a "high" for 80ms.
-        // self.get_signal(85, false)?;
-        // self.get_signal(85, true)?;
+        // Now the bus is released, the sensor sends out a response: "low"
+        // for 80ms. Then, it outputs a "high" for 80ms.
+        self.get_signal(85, false)?;
+        self.get_signal(85, true)?;
 
         let mut data: Data = Data::new();
         let mut raw_data: Vec<u8> = vec![];
@@ -130,7 +130,7 @@ impl Dht {
         let mut bit_index: u8 = 7;
 
         for i in 0..40 {
-            // let t: i32 = self.get_signal(56, false)?;
+            self.get_signal(56, false)?;
             let t: i32 = self.get_signal(75, true)?;
 
             if t > 40 {

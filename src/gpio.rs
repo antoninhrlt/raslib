@@ -54,26 +54,17 @@ impl Gpio {
     /// Reads the value contained into the GPIO value file and returns it as a
     /// boolean.
     pub fn read(&self) -> Result<bool, io::Error> {
-        let now = Instant::now();
-
         // Opens the value file for the GPIO pin.
         let mut stream = File::open(self.gpio_file("value"))?;
-
-        println!("{:?}", now.elapsed());
 
         // Reads the file as a string.
         let mut retrieved = String::new();
         stream.read_to_string(&mut retrieved)?;
 
-        println!("{:?}", now.elapsed());
-
-
         // Removes the last character which is `\n`.
         retrieved.pop();
 
-        let x = crate::str_to_bool(&retrieved);
-        println!("{:?}\n", now.elapsed());
-        Ok(x)
+        Ok(crate::str_to_bool(&retrieved))
     }
 
     /// Changes the direction of the GPIO pin. Can be either "out" or "in".
